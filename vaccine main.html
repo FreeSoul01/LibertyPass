@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Vaccine Status</title>
+  <script src="https://cdn.jsdelivr.net/npm/web3@1.5.2/dist/web3.min.js"></script>
+  <script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script>
+</head>
+
+<body>
+  <div>
+    <label for="address">Enter your Ethereum address:</label>
+    <input type="text" id="address">
+    <button onclick="getVaccineStatus()">Generate QR Code</button>
+  </div>
+  <div>
+    <canvas id="qrcode"></canvas>
+  </div>
+  <script>
+    const contractAddress = '0x...';
+    const abi = [{ ...javascript }];
+    const web3 = new Web3(Web3.givenProvider);
+    const contract = new web3.eth.Contract(abi, contractAddress);
+    const canvas = document.getElementById('qrcode');
+    const addressInput = document.getElementById('address');
+
+    async function getVaccineStatus() {
+      const address = addressInput.value;
+      const status = await contract.methods.getVaccineStatus(address).call();
+      const vaccineData = [
+        { name: 'COVID-19 Vaccine', status: status ? 'YES' : 'NO' },
+        { name: 'Hepatitis B Vaccine', status: 'NO' },
+        { name: 'Influenza Vaccine', status: 'NO' },
+      ];
+      const text = JSON.stringify(vaccineData);
+      new QRCode(canvas, text);
+    }
+  </script>
+</body>
+
+</html>

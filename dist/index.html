@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+   <title>Vaccine Passport Dapp</title>
+   <!--用户角色选择-->
+   
+	<script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js/dist/web3.min.js"></script>
+   <!--css style-->
+   <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js" type="text/javascript" charset="utf-8">
+   </script>
+</head>
+
+
+<body>
+   <button id="btn-wallet" onclick="linkWallet()">连接wallet</button>
+   <script>
+      var web3Provider;
+	var web3js;
+	
+	function linkWallet() {
+		if (ethereum) {
+			web3Provider = ethereum;
+			// 新版需要请求用户授权
+			try {
+				ethereum.enable();
+			} catch (error) {
+				alert("用户取消授权");
+				return;
+			}
+		} else if (web3) {
+			// MetaMask Legacy dapp browsers...
+			web3Provider = web3.currentProvider;
+			console.log("web3.currentProvider:");
+			console.log(web3.currentProvider);
+		} else {
+			web3Provider = new Web3.providers.HttpProvider('http://localhost:8545');
+			console.log("https://http-testnet.hecochain.com");
+		}
+		web3js = new Web3(web3Provider);
+		
+		document.getElementById("btn-wallet").innerText = "重新连接";
+	}
+
+
+   </script>
+	<div id="root"></div>
+	<script src="./build.js"></script>
+
+</body>
+</html>
